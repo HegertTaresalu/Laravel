@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\File;
-use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 class Post extends Model
 {
     use HasFactory;
+
+    //protected $guarded = ["id","created_at"];
     protected $fillable = ["title","body","excerpt","slug","category_id"];
 
     public function category()
@@ -18,5 +17,8 @@ class Post extends Model
         return $this->belongsTo(Category::class);
     }
 
-
+    public function author()
+    {
+        return $this->belongsTo(User::class,"user_id");
+    }
 }

@@ -1,8 +1,12 @@
 <x-layout>
     <article>
-        {{$post}}
         <h1>{{ $post->title }}</h1>
-        <div>
+        <p> By <a href="#">{{ $post->author->username }}</a>
+            in <a href="/categories/{{ $post->category->slug }}">
+                {{ $post->category->name }}
+            </a>
+        </p>
+        <div style="margin: 5px 0">
             {!! $post->body !!}
         </div>
     </article>
