@@ -12,7 +12,6 @@ class Post extends Model
     //protected $guarded = ["id","created_at"];
     protected $fillable = ["title","body","excerpt","slug","category_id"];
 
-
     public function scopeFilter($query,array $filters)
     {
         $query->when($filters['search'] ?? false, fn($query,$search)=>
@@ -21,15 +20,19 @@ class Post extends Model
                 ->orWhere('excerpt','like','%'.$search.'%')
                 ->orWhere('body','like','%'.$search.'%')
         );
-
         $query->when($filters['category'] ?? false, fn($query,$category)=>
-        $query
-            ->whereHas('category', fn($query)=>
-                $query->where('slug',$category)
-            )
-    );
+            $query
+                ->whereHas('category', fn($query)=>
+                    $query->where('slug',$category)
+                )
+        );
+        $query->when($filters['author'] ?? false, fn($query,$author)=>
+            $query
+                ->whereHas('author', fn($query)=>
+                    $query->where('username',$author)
+                )
+        );
     }
-
 
     public function category()
     {
